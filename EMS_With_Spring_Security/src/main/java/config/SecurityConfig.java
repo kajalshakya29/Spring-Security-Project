@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -35,7 +36,7 @@ public class SecurityConfig {
     public JdbcTokenRepositoryImpl tokenRepository() {
         JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
         repo.setDataSource(dataSource);
-        // repo.setCreateTableOnStartup(true); // Uncomment only for first run
+        // repo.setCreateTableOnStartup(true);
         return repo;
     }
 
@@ -49,9 +50,10 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         //.requestMatchers("/", "/login", "/resources/**").permitAll()
-                        .requestMatchers("/login", "/resources/**", "/access-denied").permitAll()
+                        .requestMatchers("/login", "/resources/**", "/access-denied", "/user-register","/forgot-password", "/reset-password", "/verify-email").permitAll()
                         .requestMatchers("/add", "/save", "/update/**", "/delete/**").hasRole("ADMIN")
                         .requestMatchers("/list", "/view/**").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.POST, "/user-register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

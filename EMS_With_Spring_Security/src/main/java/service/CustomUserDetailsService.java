@@ -7,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
-
 import java.util.Collections;
 
 @Service
@@ -22,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (u == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + u.getRole()); // e.g. ROLE_ADMIN
+        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + u.getRole());
         return new org.springframework.security.core.userdetails.User(
                 u.getUsername(),
                 u.getPassword(),

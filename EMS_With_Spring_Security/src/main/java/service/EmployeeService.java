@@ -5,6 +5,7 @@ import model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
@@ -30,5 +31,22 @@ public class EmployeeService {
 
     public Employee getEmployeeById(int id) {
         return dao.getById(id);
+    }
+    public List<Employee> getEmployeesByDepartment(String department) {
+        List<Employee> allEmployees = dao.getAll();
+        if (department == null || department.trim().isEmpty() || "ALL".equalsIgnoreCase(department)) {
+            return allEmployees;
+        }
+        return allEmployees.stream()
+                .filter(e -> department.equalsIgnoreCase(e.getEdept()))
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getUniqueDepartments() {
+        return dao.getAll().stream()
+                .map(Employee::getEdept)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 }

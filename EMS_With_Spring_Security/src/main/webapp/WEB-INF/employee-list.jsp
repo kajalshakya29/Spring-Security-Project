@@ -10,6 +10,20 @@
     <p>Your Role: <sec:authentication property="principal.authorities" /></p>
 
     <h2>Employee List</h2>
+    <sec:authorize access="hasRole('ADMIN')">
+            <div style="margin-bottom: 15px;">
+                <label for="dept-filter">Filter by Department:</label>
+                <select id="dept-filter"
+                        onchange="window.location.href = '${pageContext.request.contextPath}/list?dept=' + this.value">
+
+                    <option value="ALL" ${empty currentDept || currentDept == 'ALL' ? 'selected' : ''}>ALL Departments</option>
+
+                    <c:forEach var="dept" items="${departments}">
+                        <option value="${dept}" ${dept == currentDept ? 'selected' : ''}>${dept}</option>
+                    </c:forEach>
+                </select>
+            </div>
+        </sec:authorize>
     <table border="1">
         <tr>
             <th>ID</th><th>Name</th><th>Department</th><th>Actions</th>
