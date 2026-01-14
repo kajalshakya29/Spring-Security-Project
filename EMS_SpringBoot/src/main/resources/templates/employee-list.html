@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <head>
+    <meta charset="UTF-8">
+    <title>Employee List</title>
+</head>
+<body>
+    <h3 th:text="'Welcome, ' + ${#authentication.name} + '!'"> Welcome User</h3>
+    
+    <h2>Employee List</h2>
+    
+    <a sec:authorize="hasRole('ADMIN')" th:href="@{/add}">Add New Employee</a>
+    
+    <div style="margin-bottom: 20px; margin-top: 10px;">
+        <form th:action="@{/list}" method="get">
+            <label>Filter by Department: </label>
+            <select name="dept" onchange="this.form.submit()">
+                <option value="ALL">All Departments</option>
+                <option th:each="d : ${allDepartments}" 
+                        th:value="${d}" 
+                        th:text="${d}" 
+                        th:selected="${d == currentDept}">
+                </option>
+            </select>
+        </form>
+    </div>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="emp : ${employees}">
+                <td th:text="${emp.eid}"></td>
+                <td th:text="${emp.ename}"></td>
+                <td th:text="${emp.edept}"></td>
+                <td>
+                    <a th:href="@{/view/{id}(id=${emp.eid})}">View</a>
+                    
+                    <span sec:authorize="hasRole('ADMIN')">
+                        | <a th:href="@{/update/{id}(id=${emp.eid})}">Update</a> |
+                        <a th:href="@{/delete/{id}(id=${emp.eid})}">Delete</a>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <br>
+    <form th:action="@{/logout}" method="post" style="display:inline;">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>

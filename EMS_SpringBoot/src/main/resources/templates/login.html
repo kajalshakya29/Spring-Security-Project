@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - EMS</title>
+</head>
+<body>
+    <h2>Login Page</h2>
+    <div th:if="${param.resetSuccess}" style="color: green; margin-bottom: 10px;">
+    Password has been updated successfully. Please login with your new password.
+    </div>
+
+    <div th:if="${param.error}" style="color: red;">
+        Invalid Username or Password.
+    </div>
+    <div th:if="${param.logout}" style="color: green;">
+        You have been logged out successfully.
+    </div>
+    <div th:if="${param.registered}" style="color: green; font-weight: bold; margin-bottom: 15px;">
+    User registered successfully! You can now login.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+    <div>
+        <label>Username:</label> <input type="text" name="username" required /> </div>
+    <br>
+    <div>
+        <label>Password:</label>
+        <input type="password" name="password" required />
+    </div>
+    <br>
+    <button type="submit">Login</button>
+</form>
+    <br>
+    <a th:href="@{/user-register}">Register New Account</a> | 
+    <a th:href="@{/forgot-password}">Forgot Password?</a>
+</body>
+</html>
