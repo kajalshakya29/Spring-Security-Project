@@ -1,7 +1,7 @@
-## Employee Management System (Spring MVC + Spring Security)
+# Employee Management System (Spring MVC + Spring Security)
 This project is a secure, role-based web application developed using the Spring Framework. Its primary goal is to provide a robust system for managing employee records with strict access control based on user roles (Admin and User).
 
-✨ Key Technologies Used
+## Key Technologies Used
 Backend Framework: Spring MVC
 
 Security: Spring Security (Role-Based Access Control)
